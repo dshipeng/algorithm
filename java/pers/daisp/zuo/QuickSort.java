@@ -57,6 +57,29 @@ public class QuickSort {
         quickSort2(array, j, right);
     }
 
+    /**
+     * 前后指针法
+     */
+    private static  void quickSort3(int[] array, int left, int right) {
+        if (left >= right) return ;
+        int cur = left;
+        int prve = left - 1;
+        int temp = array[right];
+        while (cur < right) {
+            while (array[cur] >= temp && cur < right) {
+                cur++;
+            }
+            if (cur < right) {
+                prve++;
+                swap(array, prve, cur);
+                cur++;
+            }
+        }
+        swap(array, ++prve, right);
+        quickSort3(array, left, prve - 1);
+        quickSort3(array, prve + 1, right);
+    }
+
     private static void swap(int[] array, int i, int j) {
         if (i == j) return ;
         int temp = array[i];
@@ -67,7 +90,7 @@ public class QuickSort {
     public static void main(String[] args) {
         for (int i = 0; i < 100; i++) {
             int array[] = ArrayUtil.createRandomArray2(10);
-            quickSort2(array, 0, 9);
+            quickSort3(array, 0, 9);
             System.err.println(Arrays.toString(array));
         }
     }
