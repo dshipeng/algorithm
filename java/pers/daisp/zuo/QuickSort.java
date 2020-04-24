@@ -8,6 +8,8 @@ import java.util.Arrays;
  * 快速排序
  */
 public class QuickSort {
+    private static final int ARRAY_LENGTH = 10;
+    private static final int ARRAY_COUNT = 100;
 
     /**
      * 挖坑法
@@ -63,21 +65,21 @@ public class QuickSort {
     private static  void quickSort3(int[] array, int left, int right) {
         if (left >= right) return ;
         int cur = left;
-        int prve = left - 1;
+        int prev = left - 1;
         int temp = array[right];
         while (cur < right) {
             while (array[cur] >= temp && cur < right) {
                 cur++;
             }
             if (cur < right) {
-                prve++;
-                swap(array, prve, cur);
+                prev++;
+                swap(array, prev, cur);
                 cur++;
             }
         }
-        swap(array, ++prve, right);
-        quickSort3(array, left, prve - 1);
-        quickSort3(array, prve + 1, right);
+        swap(array, ++prev, right);
+        quickSort3(array, left, prev - 1);
+        quickSort3(array, prev + 1, right);
     }
 
     private static void swap(int[] array, int i, int j) {
@@ -88,9 +90,9 @@ public class QuickSort {
     }
 
     public static void main(String[] args) {
-        for (int i = 0; i < 100; i++) {
-            int array[] = ArrayUtil.createRandomArray2(10);
-            quickSort3(array, 0, 9);
+        for (int i = 0; i < ARRAY_COUNT; i++) {
+            int array[] = ArrayUtil.createRandomArray2(ARRAY_LENGTH);
+            quickSort3(array, 0, ARRAY_LENGTH - 1);
             System.err.println(Arrays.toString(array));
         }
     }
