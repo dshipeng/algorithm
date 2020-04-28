@@ -1,0 +1,81 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by Fernflower decompiler)
+//
+
+package com.linewell.idaas.service;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.linewell.ccip.appcommon.utils.AppSessionUtils;
+import com.linewell.ccip.utils.UNIDGenerate;
+import com.linewell.core.bean.ResultDto;
+import com.linewell.core.util.SpringContextsUtil;
+import com.linewell.idaas.config.IdaasClientConfig;
+import com.linewell.smp.unification.oauth.api.ISmpOauthApi;
+import com.linewell.smp.unification.user.api.ISmpUserApi;
+import java.util.HashMap;
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Service;
+
+@Service
+public class IdaasUserService {
+    private static final Log LOG = LogFactory.getLog(IdaasUserService.class);
+
+    public IdaasUserService() {
+    }
+
+    public boolean loginIdass(HttpServletRequest request, HttpServletResponse response, String code, String appUnid) {
+        try {
+            String token = this.getAccessToken(code, IdaasClientConfig.IDAAS_CALL_BACK_URL);
+            JSONObject userJSON = this.getUserInfo(token);
+            LOG.error(JSON.toJSONString(userJSON));
+            String userUnid = (String)userJSON.get("id");
+            Map<String, Object> attrMap = new HashMap();
+            attrMap.put("userUnid", userUnid);
+            attrMap.put("userName", (String)userJSON.get("realName"));
+            attrMap.put("loginId", UNIDGenerate.getUnid());
+            attrMap.put("appUnid-" + userUnid, appUnid);
+            HttpSession session = request.getSession();
+            session.setAttribute("_cas_temp_login_id_", attrMap);
+            session.setAttribute("token", token);
+            AppSessionUtils.getLoginInfo(request, response, appUnid);
+            return true;
+        } catch (Exception var10) {
+            LOG.error(var10.getMessage(), var10);
+            return false;
+        }
+    }
+
+    private JSONObject getUserInfo(String token) {
+        ISmpUserApi smpUserApi = (ISmpUserApi)SpringContextsUtil.getBean("smpUserApi");
+        return smpUserApi.getUserInfoByToken(token);
+    }
+
+    private String getAccessToken(String code, String redirect_uri) {
+        ISmpOauthApi smpOauthApi = (ISmpOauthApi)SpringContextsUtil.getBean("smpOauthApi");
+        String accessToken = smpOauthApi.getTokenByCode(code, redirect_uri);
+        return accessToken;
+    }
+
+    public ResultDto authorizeUrl() {
+        ResultDto resultDto = new ResultDto();
+        ISmpOauthApi smpOauthApi = (ISmpOauthApi)SpringContextsUtil.getBean("smpOauthApi");
+        String authorizeUrl = smpOauthApi.getOauthPath();
+        resultDto.setData(authorizeUrl);
+        return resultDto;
+    }
+
+    public ResultDto logoutUrl() {
+        ResultDto resultDto = new ResultDto();
+        ISmpOauthApi smpOauthApi = (ISmpOauthApi)SpringContextsUtil.getBean("smpOauthApi");
+        String logoutUrl = smpOauthApi.getLogoutUrl();
+        resultDto.setData(logoutUrl);
+        return resultDto;
+    }
+}
