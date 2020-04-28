@@ -1,6 +1,6 @@
 package pers.daisp.util;
 
-public class ArrayUtil {
+public class NumberUtil {
     public static int[] createRandomArray1(int length){
         int[] result = new int[length];
         for (int i = 0; i < length; i++) {
@@ -22,5 +22,9 @@ public class ArrayUtil {
             result[i] = random;
         }
         return result;
+    }
+
+    public static int createRandomInt(int max) {
+        return (int) (max * Math.random());
     }
 }

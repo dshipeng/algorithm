@@ -1,6 +1,6 @@
 package pers.daisp.zuo;
 
-import pers.daisp.util.ArrayUtil;
+import pers.daisp.util.NumberUtil;
 
 import java.util.Arrays;
 
@@ -37,7 +37,7 @@ public class MergeSort {
     public static void main(String[] args) {
         help = new int[10];
         for (int i = 0; i < 100; i++) {
-            int array[] = ArrayUtil.createRandomArray2(10);
+            int array[] = NumberUtil.createRandomArray2(10);
             mergeSort(array, 0, 9);
             System.err.println(Arrays.toString(array));
         }

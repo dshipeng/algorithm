@@ -1,6 +1,6 @@
 package pers.daisp.zuo;
 
-import pers.daisp.util.ArrayUtil;
+import pers.daisp.util.NumberUtil;
 
 import java.util.Arrays;
 
@@ -50,7 +50,7 @@ public class ReservePair {
     public static void main(String[] args) {
         help = new int[ARRAY_LENGTH];
         for (int i = 0; i < 10; i++) {
-            int array[] = ArrayUtil.createRandomArray2(ARRAY_LENGTH);
+            int array[] = NumberUtil.createRandomArray2(ARRAY_LENGTH);
             String arrayString = Arrays.toString(array);
             int rightResult = stupidMethod(array);
             int smallSum = mergeSort(array, 0, ARRAY_LENGTH - 1);

@@ -1,6 +1,6 @@
 package pers.daisp.zuo;
 
-import pers.daisp.util.ArrayUtil;
+import pers.daisp.util.NumberUtil;
 
 import java.util.Arrays;
 
@@ -91,7 +91,7 @@ public class QuickSort {
 
     public static void main(String[] args) {
         for (int i = 0; i < ARRAY_COUNT; i++) {
-            int array[] = ArrayUtil.createRandomArray2(ARRAY_LENGTH);
+            int array[] = NumberUtil.createRandomArray2(ARRAY_LENGTH);
             quickSort3(array, 0, ARRAY_LENGTH - 1);
             System.err.println(Arrays.toString(array));
         }
