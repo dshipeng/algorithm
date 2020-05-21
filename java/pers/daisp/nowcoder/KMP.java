@@ -1,12 +1,33 @@
 package pers.daisp.nowcoder;
 
-import java.util.Arrays;
-
 public class KMPnextArray {
 
     public static void main(String[] args) {
-        char[] chars = new char[]{'a', 'g', 'c', 't', 'a', 'g', 'c', 'a', 'g', 'c', 't', 'a', 'g', 'c', 't'};
-        System.err.println(Arrays.toString(genNextArr(chars)));
+        String str = "BBC ABCDAB ABCDABCDABDE";
+        String subStr = "ABCDABD";
+        System.err.println(KMP(str.toCharArray(), subStr.toCharArray()));
+    }
+
+    private static int KMP(char[] chars, char[] subChars) {
+        int[] next = genNextArr(subChars);
+        int i = 0;
+        int j = 0;
+        while (i < chars.length && j < subChars.length) {
+            if (chars[i] == subChars[j]) {
+                i++;
+                j++;
+            } else {
+                if (j == 0) {
+                    i++;
+                } else {
+                    j = next[j - 1];
+                }
+            }
+        }
+        if (j == subChars.length) {
+            return i - j;
+        }
+        return -1;
     }
 
 
