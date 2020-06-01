@@ -1,6 +1,6 @@
 package pers.daisp.nowcoder;
 
-public class KMPnextArray {
+public class KMP {
 
     public static void main(String[] args) {
         String str = "BBC ABCDAB ABCDABCDABDE";
