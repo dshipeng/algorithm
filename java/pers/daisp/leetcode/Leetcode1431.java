@@ -3,7 +3,7 @@ package pers.daisp.leetcode;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LeetCode1431 {
+public class Leetcode1431 {
 
     public List<Boolean> kidsWithCandies(int[] candies, int extraCandies) {
         List<Boolean> result = new ArrayList<>();
